@@ -11,4 +11,13 @@ export class EventsController {
       next(error);
     }
   }
+
+  async createEvent(req: Request, res: Response, next: NextFunction) {
+    try {
+      const events = await prisma.event.findMany();
+      return res.status(200).send({ data: events });
+    } catch (error) {
+      next(error);
+    }
+  }
 }

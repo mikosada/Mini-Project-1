@@ -25,7 +25,7 @@ export class SampleController {
   async createSampleData(req: Request, res: Response) {
     const { name, code } = req.body;
 
-    const newSampleData = await prisma.sample.create({
+    const newSampleData = await prisma.samples.create({
       data: { name, code },
     });
 

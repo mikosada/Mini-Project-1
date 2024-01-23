@@ -14,7 +14,7 @@ export class EventsRouter {
   private initializeRoutes(): void {
     this.router.get('/', this.eventsController.getEvents);
     // this.router.get('/:id', this.sampleController.getSampleDataById);
-    // this.router.post('/', this.sampleController.createSampleData);
+    this.router.post('/', this.eventsController.createEvent);
   }
 
   getRouter(): Router {

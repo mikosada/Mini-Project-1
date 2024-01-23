@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -10,52 +7,49 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Sample {
-  id        Int      @id @default(autoincrement())
-  name      String
-  code      String   @unique
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  @@map("samples") // if you want to use snake_case format
-}
-
-model Category {
-  id        Int @id @default(autoincrement())
+model category {
+  id        Int       @id @default(autoincrement())
   name      String
   createdAt DateTime  @default(now())
-  updatedAt DateTime?  @updatedAt
-
-  // event   Event[]
+  updatedAt DateTime?
+  event     event[]
 }
 
-model Event {
-  id          Int @id @default(autoincrement())
+model event {
+  id          Int             @id @default(autoincrement())
   name        String
-  slug        String @unique
+  slug        String          @unique(map: "Event_slug_key")
   price       Int
-  time        DateTime @db.Time()
-  date        DateTime @db.Date()
-  description String @db.Text
+  time        DateTime        @db.Time(0)
+  date        DateTime        @db.Date
+  description String          @db.Text
   location    String
   rating      Float
-  type        EventType
-  available   EventStatus
-  img         String @db.Text
-
+  type        event_type
+  available   event_available
+  img         String          @db.Text
   categoryId  Int
-  // category    Category @relation(fields: [categoryId], references: [id])
+  createAt    DateTime        @default(now())
+  updatedAt   DateTime?
+  category    category        @relation(fields: [categoryId], references: [id], onDelete: Cascade, map: "Event_categoryId_fkey")
 
-  createAt    DateTime @default(now())
-  updatedAt   DateTime? @updatedAt 
+  @@index([categoryId], map: "Event_categoryId_fkey")
 }
 
-enum EventType {
+model sample {
+  id        Int      @id @default(autoincrement())
+  name      String
+  code      String   @unique(map: "Sample_code_key")
+  createdAt DateTime @default(now())
+  updatedAt DateTime
+}
+
+enum event_type {
   FREE
   PAID
 }
 
-enum EventStatus {
+enum event_available {
   AVAILABE
   UNAVAILABLE
 }
