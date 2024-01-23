@@ -58,6 +58,7 @@ export default class App {
     });
 
     this.app.use('/samples', sampleRouter.getRouter());
+    this.app.use()
   }
 
   public start(): void {
