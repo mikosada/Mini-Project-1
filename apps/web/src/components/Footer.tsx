@@ -1,3 +1,8 @@
 export const Footer = () => {
-  return <div>Footer</div>;
+  return (
+    <div>
+      <div className="border-t border-neutral-200 w-full" />
+      Footer
+    </div>
+  );
 };

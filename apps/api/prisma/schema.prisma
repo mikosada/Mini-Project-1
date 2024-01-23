@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -10,14 +7,51 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Sample {
+model category {
+  id        Int       @id @default(autoincrement())
+  name      String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime?
+  event     event[]
+}
+
+model event {
+  id          Int             @id @default(autoincrement())
+  name        String
+  slug        String          @unique(map: "Event_slug_key")
+  price       Int
+  time        DateTime        @db.Time(0)
+  date        DateTime        @db.Date
+  description String          @db.Text
+  location    String
+  rating      Float
+  type        event_type
+  available   event_available
+  img         String          @db.Text
+  categoryId  Int
+  createAt    DateTime        @default(now())
+  updatedAt   DateTime?
+  category    category        @relation(fields: [categoryId], references: [id], onDelete: Cascade, map: "Event_categoryId_fkey")
+
+  @@index([categoryId], map: "Event_categoryId_fkey")
+}
+
+model sample {
   id        Int      @id @default(autoincrement())
   name      String
-  code      String   @unique
+  code      String   @unique(map: "Sample_code_key")
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  updatedAt DateTime
+}
 
-  @@map("samples") // if you want to use snake_case format
+enum event_type {
+  FREE
+  PAID
+}
+
+enum event_available {
+  AVAILABE
+  UNAVAILABLE
 }
 
 model User {
