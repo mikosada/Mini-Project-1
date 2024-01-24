@@ -49,9 +49,11 @@ enum MediaType {
   EVENT
 }
 
+
 enum EventStatus {
   ACTIVE
   NON_ACTIVE
+
 }
 
 model Checkout {
@@ -93,6 +95,7 @@ enum EventType {
   PAID
 }
 
+
 model User {
   id         Int          @id @default(autoincrement())
   username   String 
@@ -104,6 +107,6 @@ model User {
 }
 
 enum Role {
-  Customer
-  Organizer
+  CUSTOMER
+  ORGANIZER
 }
