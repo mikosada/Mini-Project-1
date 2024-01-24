@@ -36,12 +36,22 @@ model event {
   @@index([categoryId], map: "Event_categoryId_fkey")
 }
 
-model sample {
+model user {
+  id         Int      @id @default(autoincrement())
+  username   String 
+  email      String   @unique
+  password   String
+  role       Role     @default(CUSTOMER)
+  referral   String
+  
+}
+
+model samples {
   id        Int      @id @default(autoincrement())
   name      String
   code      String   @unique(map: "Sample_code_key")
   createdAt DateTime @default(now())
-  updatedAt DateTime
+  updatedAt DateTime?
 }
 
 enum event_type {
@@ -54,17 +64,8 @@ enum event_available {
   UNAVAILABLE
 }
 
-model User {
-  id         Int      @id @default(autoincrement())
-  username   String 
-  email      String   @unique
-  password   String
-  role       Role     @default(Customer)
-  refferal   String
-  
-}
 
 enum Role {
-  Customer
-  Organizer
+  CUSTOMER
+  ORGANIZER
 }
