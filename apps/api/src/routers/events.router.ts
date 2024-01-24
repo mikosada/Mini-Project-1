@@ -1,4 +1,5 @@
 import { EventsController } from '@/controllers/events.controller';
+import { uploader } from '@/middleware/uploader';
 import { Router } from 'express';
 
 export class EventsRouter {
@@ -14,7 +15,11 @@ export class EventsRouter {
   private initializeRoutes(): void {
     this.router.get('/', this.eventsController.getEvents);
     // this.router.get('/:id', this.sampleController.getSampleDataById);
-    this.router.post('/', this.eventsController.createEvent);
+    this.router.post(
+      '/',
+      uploader('IMG', '/assets/events').single('img'),
+      this.eventsController.createEvent,
+    );
   }
 
   getRouter(): Router {

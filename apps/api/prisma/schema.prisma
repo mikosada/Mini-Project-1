@@ -7,61 +7,100 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model category {
-  id        Int       @id @default(autoincrement())
-  name      String
-  createdAt DateTime  @default(now())
-  updatedAt DateTime?
-  event     event[]
+model Category {
+  id          Int       @id @default(autoincrement())
+  name        String
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime?
+  events      Event[]
 }
 
-model event {
+model Event {
   id          Int             @id @default(autoincrement())
   name        String
-  slug        String          @unique(map: "Event_slug_key")
+  slug        String          @unique
   price       Int
-  time        DateTime        @db.Time(0)
+  time        DateTime        @db.Time
   date        DateTime        @db.Date
-  description String          @db.Text
-  location    String
-  rating      Float
-  type        event_type
-  available   event_available
-  img         String          @db.Text
+  description String?         @db.Text
+  location    String          @db.Text
+  type        EventType
+  seat        Int             
+  status      EventStatus
   categoryId  Int
   createAt    DateTime        @default(now())
-  updatedAt   DateTime?
-  category    category        @relation(fields: [categoryId], references: [id], onDelete: Cascade, map: "Event_categoryId_fkey")
-
-  @@index([categoryId], map: "Event_categoryId_fkey")
+  updatedAt   DateTime?       @updatedAt
+  category    Category        @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  ratings     Rating[]  
+  medias      Media[]      
 }
 
-model sample {
-  id        Int      @id @default(autoincrement())
-  name      String
-  code      String   @unique(map: "Sample_code_key")
-  createdAt DateTime @default(now())
-  updatedAt DateTime
+model Media {
+  id          Int             @id @default(autoincrement())
+  type        MediaType       
+  typeId      Int
+  event       Event           @relation(fields: [typeId], references: [id])
+  url         String?         @db.Text 
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime?       @updatedAt
 }
 
-enum event_type {
+enum MediaType {
+  EVENT
+}
+
+enum EventStatus {
+  ACTIVE
+  NON_ACTIVE
+}
+
+model Checkout {
+  id          Int             @id @default(autoincrement())
+  eventId     Int
+  userId      Int
+  status      StatusCheckoutType
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime?       @updatedAt
+}
+
+enum StatusCheckoutType {
+  ONPROSES
+  PENDING
+  SUCCED
+}
+
+model Rating {
+  id          Int            @id @default(autoincrement())
+  rating      Float                       
+  eventId     Int
+  event       Event          @relation(fields: [eventId], references: [id])
+  userId      Int
+  user        User           @relation(fields: [userId], references: [id])    
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime?      @updatedAt
+}
+
+model Sample {
+  id          Int           @id @default(autoincrement())
+  name        String
+  code        String        @unique
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime?     @updatedAt
+}
+
+enum EventType {
   FREE
   PAID
 }
 
-enum event_available {
-  AVAILABE
-  UNAVAILABLE
-}
-
 model User {
-  id         Int      @id @default(autoincrement())
+  id         Int          @id @default(autoincrement())
   username   String 
-  email      String   @unique
+  email      String       @unique
   password   String
-  role       Role     @default(Customer)
+  role       Role         @default(Customer)
   refferal   String
-  
+  ratings    Rating[]
 }
 
 enum Role {
