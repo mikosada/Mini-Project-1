@@ -3,6 +3,7 @@
 import * as React from 'react';
 import { useState } from 'react';
 import axios from 'axios';
+import { useRouter } from 'next/navigation';
 
 export default function Register() {
   const [fix, setFix] = useState(false);
@@ -16,6 +17,11 @@ export default function Register() {
 
   const handleRoleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setRole(event.target.value);
+  };
+
+  const router = useRouter();
+  const routerChange = () => {
+    router.push('/');
   };
 
   const handleRegister = async () => {
