@@ -19,6 +19,7 @@ export class AuthRouter {
       registerValidator,
       this.authController.registerUser,
     );
+    this.router.post('/login', this.authController.login);
   }
   getRouter(): Router {
     return this.router;
