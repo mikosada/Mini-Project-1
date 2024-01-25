@@ -101,12 +101,25 @@ model User {
   username   String 
   email      String       @unique
   password   String
-  role       Role         @default(Customer)
-  refferal   String
+  role       Role         @default(CUSTOMER)
+  referral   String
   ratings    Rating[]
+  wallet     UserWallet?
 }
 
 enum Role {
   CUSTOMER
   ORGANIZER
+}
+
+model UserWallet {
+  id      Int @id @default(autoincrement())
+  userId  Int @unique
+  user    User @relation(fields: [userId], references: [id])
+  point   Int @default(0)
+}
+
+model VoucherDiscount {
+  id Int @id @default(autoincrement())
+  
 }

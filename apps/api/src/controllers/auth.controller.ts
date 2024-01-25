@@ -1,10 +1,11 @@
 import { Request, Response, NextFunction } from 'express';
 import prisma from '../prisma';
-import { genSalt, hash } from 'bcrypt';
+import { genSalt, hash, compare } from 'bcrypt';
 import { transporter } from '../helpers/mailer';
 import fs from 'fs';
 import { join } from 'path';
 import handlebars from 'handlebars';
+import { verify, sign } from 'jsonwebtoken';
 
 export class AuthController {
   async registerUser(req: Request, res: Response, next: NextFunction) {
@@ -56,6 +57,44 @@ export class AuthController {
 
       console.log(newUser);
       return res.status(201).send({ success: true, result: newUser });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async login(req: Request, res: Response, next: NextFunction) {
+    try {
+      const user = await prisma.user.findUnique({
+        where: { email: req.body.email },
+      });
+
+      if (!user) {
+        throw new Error('Email user not found');
+      }
+
+      const checkPassword = await compare(req.body.password, user.password);
+
+      if (checkPassword) {
+        const payload = {
+          id: user.id,
+          username: user.username,
+          email: user.email,
+          role: user.role,
+        };
+
+        const secret = '123jwt';
+        const expired = 60 * 60 * 1;
+        const token = sign(payload, secret, { expiresIn: expired });
+
+        return res.status(200).send({
+          id: user.id,
+          username: user.username,
+          email: user.email,
+          token: token,
+        });
+      } else {
+        return res.status(403).send('WRONG PASSWORD');
+      }
     } catch (error) {
       next(error);
     }

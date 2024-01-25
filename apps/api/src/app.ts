@@ -44,8 +44,8 @@ export default class App {
     this.app.use(
       (err: Error, req: Request, res: Response, next: NextFunction) => {
         if (req.path.includes('/api/')) {
-          console.error('Error : ', err.stack);
-          res.status(500).send('Error !');
+          console.error('Error : ', err);
+          res.status(500).send(err);
         } else {
           next();
         }
@@ -56,15 +56,15 @@ export default class App {
   private routes(): void {
     const sampleRouter = new SampleRouter();
     const eventsRouter = new EventsRouter();
-    const authRouter = new AuthRouter()
+    const authRouter = new AuthRouter();
 
     this.app.get('/', (req: Request, res: Response) => {
       res.send(`Hello, Purwadhika Student !`);
     });
 
-    this.app.use('/samples', sampleRouter.getRouter());
-    this.app.use('/events', eventsRouter.getRouter());
-    this.app.use('/auth', authRouter.getRouter())
+    this.app.use('/api/sample', sampleRouter.getRouter());
+    this.app.use('/api/events', eventsRouter.getRouter());
+    this.app.use('/api/auth', authRouter.getRouter());
   }
 
   public start(): void {

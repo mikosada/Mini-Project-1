@@ -102,14 +102,14 @@ export const users = [
     password: '123user1',
     email: 'user1@gmail.com',
     refferal: '',
-    role: Role.Customer,
+    role: Role.CUSTOMER,
   },
   {
     username: 'user2',
     password: '123user2',
     email: 'user2@gmail.com',
     refferal: '',
-    role: Role.Organizer,
+    role: Role.ORGANIZER,
   },
 ];
 
