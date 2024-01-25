@@ -3,7 +3,7 @@ import prisma from '@/prisma';
 
 export class SampleController {
   async getSampleData(req: Request, res: Response) {
-    const sampleData = await prisma.samples.findMany();
+    const sampleData = await prisma.sample.findMany();
 
     return res.status(200).send(sampleData);
   }
@@ -11,7 +11,7 @@ export class SampleController {
   async getSampleDataById(req: Request, res: Response) {
     const { id } = req.params;
 
-    const sample = await prisma.samples.findUnique({
+    const sample = await prisma.sample.findUnique({
       where: { id: Number(id) },
     });
 
