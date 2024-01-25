@@ -21,13 +21,16 @@ export default function Register() {
 
   const handleRegister = async () => {
     try {
-      const response = await axios.post('http://localhost:8000/auth/regis', {
-        username,
-        email,
-        password,
-        role,
-        parentReferral,
-      });
+      const response = await axios.post(
+        'http://localhost:8000/api/auth/regis',
+        {
+          username,
+          email,
+          password,
+          role,
+          parentReferral,
+        },
+      );
       alert('Register success');
       router.push('/');
     } catch (error: any) {

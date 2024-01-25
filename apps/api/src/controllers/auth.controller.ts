@@ -5,7 +5,7 @@ import { transporter } from '../helpers/mailer';
 import fs from 'fs';
 import { join } from 'path';
 import handlebars from 'handlebars';
-import jwt from 'jsonwebtoken';
+import { verify, sign } from 'jsonwebtoken';
 
 export class AuthController {
   async registerUser(req: Request, res: Response, next: NextFunction) {
@@ -64,29 +64,32 @@ export class AuthController {
 
   async login(req: Request, res: Response, next: NextFunction) {
     try {
-      const { email, password } = req.body;
-
-      const user = await prisma.user.findUnique({ where: { email } });
+      const user = await prisma.user.findUnique({
+        where: { email: req.body.email },
+      });
 
       if (!user) {
         throw new Error('Email user not found');
       }
 
-      const checkPassword = await compare(password, user.password);
+      const checkPassword = await compare(req.body.password, user.password);
 
       if (checkPassword) {
         const payload = {
           id: user.id,
+          username: user.username,
           email: user.email,
           role: user.role,
         };
 
         const secret = '123jwt';
         const expired = 60 * 60 * 1;
-        const token = jwt.sign(payload, secret, { expiresIn: expired });
+        const token = sign(payload, secret, { expiresIn: expired });
 
-        return res.json({
-          data: { id: user.id, email: user.email },
+        return res.status(200).send({
+          id: user.id,
+          username: user.username,
+          email: user.email,
           token: token,
         });
       } else {

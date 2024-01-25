@@ -1,11 +1,31 @@
 'use client';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import axios from 'axios';
 
 export default function login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const router = useRouter();
+
+  const handleLogin = async () => {
+    try {
+      const response = await axios.post(
+        'http://localhost:8000/api/auth/login',
+        {
+          email,
+          password,
+        },
+      );
+
+      console.log(response.data);
+      localStorage.setItem('jwtToken', response.data.token);
+
+      router.push('/');
+    } catch (error: any) {
+      error.response?.data || error.message;
+    }
+  };
 
   return (
     <div className="flex items-center justify-center h-1/2 my-5">
@@ -42,6 +62,7 @@ export default function login() {
           <button
             type="button"
             className="bg-blue-500 hover:bg-blue-700 text-white px-4 py-2 rounded "
+            onClick={handleLogin}
           >
             Login
           </button>

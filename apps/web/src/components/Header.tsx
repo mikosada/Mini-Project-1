@@ -10,7 +10,7 @@ export const Header = () => {
         <Logo />
         <div className="space-x-4 md:block md:w-auto flex items-center justify-between w-full">
           <Button size="sm" variant="ghost" asChild>
-            <Link href="/sign-in">Login</Link>
+            <Link href="/login">Login</Link>
           </Button>
           <Button size="sm" variant="primary" asChild>
             <Link href="/register">Daftar</Link>
