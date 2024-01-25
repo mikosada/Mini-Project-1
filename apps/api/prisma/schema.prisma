@@ -97,9 +97,22 @@ model User {
   role            Role         @default(CUSTOMER)
   referral        String
   transactions    Transaction[]
+  wallet     UserWallet?
 }
 
 enum Role {
   CUSTOMER
   ORGANIZER
+}
+
+model UserWallet {
+  id      Int @id @default(autoincrement())
+  userId  Int @unique
+  user    User @relation(fields: [userId], references: [id])
+  point   Int @default(0)
+}
+
+model VoucherDiscount {
+  id Int @id @default(autoincrement())
+  
 }

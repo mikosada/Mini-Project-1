@@ -3,10 +3,9 @@
 import * as React from 'react';
 import { useState } from 'react';
 import axios from 'axios';
+import { useRouter } from 'next/navigation';
 
 export default function Register() {
-  const [fix, setFix] = useState(false);
-  const [fixFilter, setFixFilter] = useState(false);
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -18,16 +17,22 @@ export default function Register() {
     setRole(event.target.value);
   };
 
+  const router = useRouter();
+
   const handleRegister = async () => {
     try {
-      const response = await axios.post('http://localhost:8000/auth/regis', {
-        username,
-        email,
-        password,
-        role,
-        parentReferral,
-      });
+      const response = await axios.post(
+        'http://localhost:8000/api/auth/regis',
+        {
+          username,
+          email,
+          password,
+          role,
+          parentReferral,
+        },
+      );
       alert('Register success');
+      router.push('/');
     } catch (error: any) {
       console.error(
         'Error during registration: ',
@@ -36,24 +41,8 @@ export default function Register() {
     }
   };
 
-  const setFixed = () => {
-    if (window.scrollY > 56) {
-      setFix(true);
-    } else {
-      setFix(false);
-    }
-
-    if (window.scrollY > 200) {
-      setFixFilter(true);
-    } else {
-      setFixFilter(false);
-    }
-  };
-
-  window.addEventListener('scroll', setFixed);
-
   return (
-    <div className="flex items-center justify-center h-screen">
+    <div className="flex items-center justify-center h-1/2">
       <div className="bg gray-100 p-5 rounded shadow-sm">
         <h1 className=" font-bold my-4">Registration</h1>
         <label
@@ -72,7 +61,7 @@ export default function Register() {
         />
         <label
           htmlFor="email"
-          className="block text-gray-700 text-sm font-bold mb-2"
+          className="block text-gray-700 text-sm font-bold my-2"
         >
           Email
         </label>
@@ -86,7 +75,7 @@ export default function Register() {
         />
         <label
           htmlFor="password"
-          className="block text-gray-700 text-sm font-bold mb-2"
+          className="block text-gray-700 text-sm font-bold my-2"
         >
           Password
         </label>
@@ -100,7 +89,7 @@ export default function Register() {
         />
         <label
           htmlFor="referral"
-          className="block text-gray-700 text-sm font-bold mb-2"
+          className="block text-gray-700 text-sm font-bold my-2"
         >
           Referral code
         </label>

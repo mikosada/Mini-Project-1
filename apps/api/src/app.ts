@@ -63,7 +63,6 @@ export default class App {
     });
 
     this.app.use(express.static('public'));
-
     this.app.use('/api/samples', sampleRouter.getRouter());
     this.app.use('/api/events', eventsRouter.getRouter());
     this.app.use('/api/auth', authRouter.getRouter());
