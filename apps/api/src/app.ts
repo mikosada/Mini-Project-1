@@ -62,7 +62,8 @@ export default class App {
       res.send(`Hello, Purwadhika Student !`);
     });
 
-    this.app.use('/api/sample', sampleRouter.getRouter());
+    this.app.use(express.static('public'));
+    this.app.use('/api/samples', sampleRouter.getRouter());
     this.app.use('/api/events', eventsRouter.getRouter());
     this.app.use('/api/auth', authRouter.getRouter());
   }

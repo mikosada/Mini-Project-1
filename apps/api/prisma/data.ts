@@ -1,4 +1,10 @@
-import { EventStatus, EventType, MediaType, Role } from '@prisma/client';
+import {
+  EventStatus,
+  EventType,
+  MediaType,
+  Role,
+  TransactionStatus,
+} from '@prisma/client';
 
 export const categories = [
   { name: 'Semua' },
@@ -108,35 +114,39 @@ export const users = [
     username: 'user2',
     password: '123user2',
     email: 'user2@gmail.com',
+    referral: '',
     refferal: '',
     role: Role.ORGANIZER,
   },
 ];
 
-export const ratings = [
-  {
-    eventId: 1,
-    userId: 1,
-    rating: 4,
-  },
+export const transactions = [
   {
     eventId: 1,
     userId: 1,
     rating: 4.5,
+    status: TransactionStatus.SUCCESS,
+  },
+  {
+    eventId: 1,
+    userId: 1,
+    rating: 5,
+    status: TransactionStatus.SUCCESS,
   },
   {
     eventId: 1,
     userId: 2,
-    rating: 5,
+    status: TransactionStatus.PENDING,
   },
   {
     eventId: 2,
     userId: 1,
-    rating: 4,
+    status: TransactionStatus.ONPROSES,
   },
   {
     eventId: 2,
     userId: 1,
     rating: 5,
+    status: TransactionStatus.SUCCESS,
   },
 ];
