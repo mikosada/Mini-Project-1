@@ -87,14 +87,18 @@ export class AuthController {
         const token = sign(payload, secret, { expiresIn: expired });
 
         return res.status(200).send({
-          id: user.id,
-          username: user.username,
-          email: user.email,
           token: token,
         });
       } else {
         return res.status(403).send('WRONG PASSWORD');
       }
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async keepLogin(req: Request, res: Response, next: NextFunction) {
+    try {
     } catch (error) {
       next(error);
     }

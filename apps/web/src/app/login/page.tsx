@@ -6,6 +6,7 @@ import axios from 'axios';
 export default function login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [isLoggedIn, setLoggedIn] = useState(false);
   const router = useRouter();
 
   const handleLogin = async () => {
@@ -18,8 +19,8 @@ export default function login() {
         },
       );
 
-      console.log(response.data);
       localStorage.setItem('jwtToken', response.data.token);
+      setLoggedIn(true);
 
       router.push('/');
     } catch (error: any) {
