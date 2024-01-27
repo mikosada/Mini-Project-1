@@ -17,10 +17,10 @@ export const verifyToken = async (
     if (!verifiedToken) {
       return res.status(401).send('Unauthorized token');
     }
+    console.log(verifiedToken);
 
     return res.status(200).send(verifiedToken);
   } catch (error) {
-    console.log(error);
     next(error);
   }
 };
