@@ -8,6 +8,7 @@ export default function login() {
   const [password, setPassword] = useState('');
   const [isLoggedIn, setLoggedIn] = useState(false);
   const router = useRouter();
+  const uniqueKey = new Date().getTime().toString();
 
   const handleLogin = async () => {
     try {

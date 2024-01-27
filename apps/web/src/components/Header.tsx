@@ -4,6 +4,7 @@ import Logo from './Logo';
 import { Button } from './ui/button';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { verifyToken } from '../../../api/src/middleware/verifyToken';
 
 export const Header = () => {
