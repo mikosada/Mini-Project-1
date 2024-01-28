@@ -1,7 +1,5 @@
 import React from 'react';
 import { InputSearch } from './InputSearch';
-import { ChevronDown, MapPin } from 'lucide-react';
-import { Label } from './ui/label';
 import { LocationSearch } from './LocationSearch';
 
 const Hero = () => {

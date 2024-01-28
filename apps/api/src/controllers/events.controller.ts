@@ -77,7 +77,7 @@ export class EventsController {
           data: {
             name,
             slug,
-            price: price,
+            price: parseInt(price),
             time,
             date,
             description,
