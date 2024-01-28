@@ -9,16 +9,10 @@ const Sidebar = () => {
     <div className="sidebar">
       <div className="menu">
         <div className={'menuItem active'}>
-          <div>test 1</div>
-          <span>test</span>
+          <div>Event Dashboard</div>
         </div>
         <div className={'menuItem active'}>
-          <div>test 1</div>
-          <span>test</span>
-        </div>
-        <div className={'menuItem active'}>
-          <div>test 1</div>
-          <span>test</span>
+          <div>Create Event</div>
         </div>
       </div>
     </div>

@@ -31,6 +31,7 @@
   position: relative;
   transition: all 200ms ease;
   font-size: xl;
+  font-weight: 600;
 }
 
 .menuItem:hover {
@@ -45,7 +46,53 @@
 
 .active::before {
   content: '';
-  width: 8px;
+  width: 6px;
   height: 100%;
   background: rgb(123, 123, 123);
+}
+
+.MainDash {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  margin-left: 2rem;
+}
+
+.h1 {
+  font-size: xx-large;
+  font-weight: 600;
+}
+
+.Cards {
+  display: flex;
+  gap: 10px;
+}
+
+.ParentsCard {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 20rem auto 20rem;
+}
+
+.Card {
+  margin: 2rem;
+  background-color: white;
+  border-radius: 5px;
+  height: 200px;
+  width: auto;
+  text-align: center;
+}
+
+.Statistic {
+  display: flex;
+  gap: 10px;
+}
+
+.StatisticContent {
+  margin: 1rem;
+  background-color: white;
+  border-radius: 5px;
+  height: 200px;
+  width: 100%;
+  text-align: center;
 }
