@@ -8,6 +8,7 @@ export const verifyToken = async (
 ) => {
   try {
     const token = req.header('Authorization')?.split(' ')[1];
+
     if (!token) {
       return res.status(400).send({ message: 'Token not found' });
     }
@@ -16,10 +17,10 @@ export const verifyToken = async (
     if (!verifiedToken) {
       return res.status(401).send('Unauthorized token');
     }
+    console.log(verifiedToken);
 
     return res.status(200).send(verifiedToken);
   } catch (error) {
-    console.log(error);
     next(error);
   }
 };
