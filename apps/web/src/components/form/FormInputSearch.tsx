@@ -1,23 +1,30 @@
-import React, { forwardRef } from 'react';
-import { Label } from './ui/label';
-import { Input } from './ui/input';
-import { cn } from '@/lib/utils';
-import { CustomInputSearch } from './ui/input-search';
+'use client';
 
-interface InputSearchProps {
+import { forwardRef } from 'react';
+import { useFormStatus } from 'react-dom';
+
+import { Label } from '@/components/ui/label';
+import { Input } from '@/components/ui/input';
+import { cn } from '@/lib/utils';
+import { FormErrors } from './FormErrors';
+
+interface FormInputSearchProps {
   id: string;
   label?: string;
   type?: string;
   placeholder?: string;
   required?: boolean;
   disabled?: boolean;
-  errors?: Record<string, string[]> | undefined;
+  errors?: Record<string, string[] | undefined>;
   className?: string;
   defaultValue?: string;
-  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange?: () => void;
 }
 
-export const InputSearch = forwardRef<HTMLInputElement, InputSearchProps>(
+export const FormInputSearch = forwardRef<
+  HTMLInputElement,
+  FormInputSearchProps
+>(
   (
     {
       id,
@@ -33,8 +40,10 @@ export const InputSearch = forwardRef<HTMLInputElement, InputSearchProps>(
     },
     ref,
   ) => {
+    const { pending } = useFormStatus();
+
     return (
-      <div className="space-y-2 w-full md:w-1/2">
+      <div className="space-y-2">
         <div className="space-y-1">
           {label ? (
             <Label
@@ -45,7 +54,7 @@ export const InputSearch = forwardRef<HTMLInputElement, InputSearchProps>(
             </Label>
           ) : null}
 
-          <CustomInputSearch
+          <Input
             onChange={onChange}
             defaultValue={defaultValue}
             ref={ref}
@@ -54,13 +63,15 @@ export const InputSearch = forwardRef<HTMLInputElement, InputSearchProps>(
             id={id}
             placeholder={placeholder}
             type={type}
-            className={cn('text-lg px-2 py-1 h-7', className)}
+            disabled={pending || disabled}
+            className={cn('text-sm px-2 py-1 h-7', className)}
             aria-describedby={`${id}-error`}
           />
         </div>
+        <FormErrors id={id} errors={errors} />
       </div>
     );
   },
 );
 
-InputSearch.displayName = 'InputSearch';
+FormInputSearch.displayName = 'FormInputSearch';

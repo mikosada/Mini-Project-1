@@ -7,7 +7,6 @@ import Upcoming from '@/components/Upcoming';
 import { useState } from 'react';
 import { Banknote, Calendar, SortAsc } from 'lucide-react';
 import Events from '@/components/Events';
-import axios from 'axios';
 
 export default function Home() {
   const [fix, setFix] = useState(false);
