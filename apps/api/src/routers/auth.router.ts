@@ -2,6 +2,7 @@ import { Router } from 'express';
 import { AuthController } from '../controllers/auth.controller';
 import { body } from 'express-validator';
 import { registerValidator } from '../middleware/validator';
+import { verifyToken } from '../middleware/verifyToken';
 
 export class AuthRouter {
   private router: Router;
@@ -19,6 +20,8 @@ export class AuthRouter {
       registerValidator,
       this.authController.registerUser,
     );
+    this.router.post('/login', this.authController.login);
+    this.router.post('/keepLogin', verifyToken);
   }
   getRouter(): Router {
     return this.router;

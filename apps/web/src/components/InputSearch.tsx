@@ -2,6 +2,7 @@ import React, { forwardRef } from 'react';
 import { Label } from './ui/label';
 import { Input } from './ui/input';
 import { cn } from '@/lib/utils';
+import { CustomInputSearch } from './ui/input-search';
 
 interface InputSearchProps {
   id: string;
@@ -44,7 +45,7 @@ export const InputSearch = forwardRef<HTMLInputElement, InputSearchProps>(
             </Label>
           ) : null}
 
-          <Input
+          <CustomInputSearch
             onChange={onChange}
             defaultValue={defaultValue}
             ref={ref}

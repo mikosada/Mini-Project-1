@@ -76,6 +76,19 @@
 }
 
 @layer components {
+  .table {
+    width: 100% !important;
+    border-spacing: 0 !important;
+    border-collapse: collapse !important;
+    border: 1px solid #ddd !important;
+    margin-top: 40px;
+  }
+
+  .table th,
+  td {
+    text-align: left;
+    padding: 8px;
+  }
   .image {
     object-fit: cover !important;
     width: 100% !important;
