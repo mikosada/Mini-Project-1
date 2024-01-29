@@ -10,7 +10,9 @@ import { verify, sign } from 'jsonwebtoken';
 export class AuthController {
   async registerUser(req: Request, res: Response, next: NextFunction) {
     try {
-      const { username, email, role } = req.body;
+      console.log(req.body);
+
+      const { username, email, role, parentReferral } = req.body;
       const checkUser = await prisma.user.findUnique({
         where: { email },
       });
@@ -29,6 +31,7 @@ export class AuthController {
         }
         return referralCode;
       };
+
       const salt = await genSalt(10);
       const hashPassword = await hash(req.body.password, salt);
 
@@ -37,10 +40,114 @@ export class AuthController {
           username,
           email,
           password: hashPassword,
-          referral: generateReferral(),
+          referralCode: generateReferral(),
           role,
         },
       });
+
+      const generateCouponCode = () => {
+        const chars = 'ABCDEFGHIJ12345';
+        const codeLength = 8;
+        let couponCode = '';
+
+        for (let i = 0; i < codeLength; i++) {
+          const random = Math.floor(Math.random() * chars.length);
+          couponCode += chars.charAt(random);
+        }
+        return couponCode;
+      };
+
+      const calculateExpiryDate = (): Date => {
+        const currentDate = new Date();
+        const expiryDate = new Date(currentDate);
+        expiryDate.setMonth(currentDate.getMonth() + 3);
+
+        return expiryDate;
+      };
+
+      if (parentReferral) {
+        const referralCode = parentReferral;
+
+        const referringUser = referralCode
+          ? await prisma.user.findUnique({ where: { referralCode } })
+          : null;
+
+        if (referringUser) {
+          const awardPoints = async (userId: number, pointsToAdd: number) => {
+            try {
+              const currentUser = await prisma.user.findUnique({
+                where: { id: userId },
+                include: { points: true },
+              });
+              if (!currentUser) {
+                throw new Error('User Not Found');
+              }
+              const currentPoints = currentUser.points.reduce(
+                (totalPoints, point) => totalPoints + point.points,
+                0,
+              );
+              const newTotalPoints = currentPoints + pointsToAdd;
+
+              if (currentUser.points.length > 0) {
+                await prisma.user.update({
+                  where: { id: userId },
+                  data: {
+                    points: {
+                      update: {
+                        where: {
+                          id: currentUser.points[0].id,
+                        },
+                        data: { points: newTotalPoints },
+                      },
+                    },
+                  },
+                });
+              } else {
+                await prisma.user.update({
+                  where: { id: userId },
+                  data: { points: { create: { points: newTotalPoints } } },
+                });
+              }
+
+              console.log('point successfuly added');
+            } catch (error) {
+              console.error('Error awarding points', error);
+            }
+          };
+
+          const generateDiscountCoupon = async (
+            userId: number,
+            couponCode: string,
+            expirationDate: Date,
+            discountPercentage: number,
+          ) => {
+            try {
+              const discountCoupon = await prisma.discountCoupon.create({
+                data: {
+                  userId,
+                  couponCode,
+                  expirationDate,
+                  discountPercentage,
+                },
+              });
+              console.log('Discount coupon successfuly added');
+            } catch (error) {
+              console.error('Error creating discount coupon', error);
+              throw error;
+            }
+          };
+
+          const pointsToAdd = 10000;
+          await awardPoints(referringUser.id, pointsToAdd);
+          const discountPercentage = 10;
+          await generateDiscountCoupon(
+            newUser.id,
+            generateCouponCode(),
+            calculateExpiryDate(),
+            discountPercentage,
+          );
+        }
+      }
 
       const templateSource = fs.readFileSync(
         join(__dirname, '../templates/registerMail.hbs'),
@@ -80,6 +187,7 @@ export class AuthController {
           username: user.username,
           email: user.email,
           role: user.role,
+          referral: user.referralCode,
         };
 
         const secret = '123jwt';

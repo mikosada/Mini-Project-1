@@ -175,7 +175,7 @@ const Description = () => {
                 className="w-full mt-2"
                 placeholder="Add a seat of event"
                 error={errors.seat?.message}
-                seat={register}
+                {...register}
               />
               <FormTextarea
                 id="location"

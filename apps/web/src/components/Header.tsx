@@ -48,8 +48,7 @@ export const Header = () => {
         <div className="space-x-4 md:block md:w-auto flex items-center justify-between w-full">
           {isLoggedIn ? (
             <>
-              <button className="opacity-0"></button>
-              <Link href="/profile">
+              <Link href="/customer">
                 <Button>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -71,10 +70,10 @@ export const Header = () => {
           ) : (
             <>
               <Button size="sm" variant="ghost" asChild>
-                <Link href="/login">Login</Link>
+                <Link href="/auth/login">Login</Link>
               </Button>
               <Button size="sm" variant="primary" asChild>
-                <Link href="/register">Daftar</Link>
+                <Link href="/auth/register">Daftar</Link>
               </Button>
             </>
           )}
