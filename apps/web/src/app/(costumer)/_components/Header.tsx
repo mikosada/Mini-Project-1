@@ -1,7 +1,7 @@
 'use client';
 import Link from 'next/link';
-import Logo from './Logo';
-import { Button } from './ui/button';
+import Logo from '../../../components/Logo';
+import { Button } from '../../../components/ui/button';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Popover } from '@headlessui/react';

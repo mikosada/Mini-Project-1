@@ -4,7 +4,16 @@ import React, { useState } from 'react';
 import { CATEGORIES } from '@/constants';
 import CategoryItem from './CategoryItem';
 
-export const Category = () => {
+export interface CategoryType {
+  id: number;
+  name: string;
+}
+
+interface CategoryProps {
+  data: CategoryType[];
+}
+
+export const Category = ({ data }: CategoryProps) => {
   const [currentCategory, setCurrentCategory] = useState('');
 
   const onCheck = (event: React.MouseEvent<HTMLButtonElement>): void => {
@@ -16,7 +25,7 @@ export const Category = () => {
   return (
     <CategoryItem
       checkedCategoryName={currentCategory}
-      categories={CATEGORIES}
+      categories={data}
       onCheck={onCheck}
     />
   );

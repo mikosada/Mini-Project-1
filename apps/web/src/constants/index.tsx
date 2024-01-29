@@ -1,4 +1,4 @@
-import { CategoryProps } from '@/components/CategoryItem';
+import { CategoryProps } from '@/app/(costumer)/_components/CategoryItem';
 
 export const CATEGORIES: CategoryProps[] = [
   {

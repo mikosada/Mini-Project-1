@@ -17,87 +17,113 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover';
-import { useComboboxForm } from '@/hooks/use-combobox';
 import { Label } from '../ui/label';
+import { CategoryType } from '../card-modal/description';
+import { FormControl, FormField, FormItem } from '../ui/form';
+import { UseFormReturn } from 'react-hook-form';
+import { FormErrors } from './FormErrors';
 
-const frameworks = [
-  {
-    value: 'next.js',
-    label: 'Next.js',
-  },
-  {
-    value: 'sveltekit',
-    label: 'SvelteKit',
-  },
-  {
-    value: 'nuxt.js',
-    label: 'Nuxt.js',
-  },
-  {
-    value: 'remix',
-    label: 'Remix',
-  },
-  {
-    value: 'astro',
-    label: 'Astro',
-  },
-];
+interface FormComboboxProps {
+  id: string;
+  label?: string;
+  placeholder?: string;
+  required?: boolean;
+  disabled?: boolean;
+  error?: string;
+  className?: string;
+  defaultValue?: string;
+  form: UseFormReturn<any, any, undefined>;
+  categories: CategoryType[];
+}
 
-export function FormCombobox() {
+export function FormCombobox({
+  id,
+  label,
+  placeholder,
+  required,
+  disabled,
+  error,
+  className,
+  defaultValue = '',
+  form,
+  categories,
+}: FormComboboxProps) {
   const [open, setOpen] = React.useState(false);
-  const [value, setValue] = React.useState('');
 
   return (
-    <div>
-      <Label className="text-xs font-semibold text-neutral-700">
-        Category <span className="text-red-500">*</span>
-      </Label>
-      <Popover open={open} onOpenChange={setOpen}>
-        <PopoverTrigger asChild>
-          <Button
-            variant="outline"
-            role="combobox"
-            aria-expanded={open}
-            className="w-full justify-between mt-1"
-          >
-            {value
-              ? frameworks.find((framework) => framework.value === value)?.label
-              : 'Select framework...'}
-            <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-          </Button>
-        </PopoverTrigger>
-        <PopoverContent
-          align="start"
-          side="top"
-          sideOffset={18}
-          className="w-full p-0"
-        >
-          <Command>
-            <CommandInput placeholder="Search framework..." />
-            <CommandEmpty>No framework found.</CommandEmpty>
-            <CommandGroup>
-              {frameworks.map((framework) => (
-                <CommandItem
-                  key={framework.value}
-                  value={framework.value}
-                  onSelect={(currentValue) => {
-                    setValue(currentValue === value ? '' : currentValue);
-                    setOpen(false);
-                  }}
+    <div className="space-y-2 mt-2">
+      <div className="space-y-1">
+        <FormField
+          control={form.control}
+          name={id}
+          render={({ field }) => (
+            <FormItem className="flex flex-col">
+              {label ? (
+                <div className="flex items-center gap-x-1">
+                  <Label className="text-xs font-semibold text-neutral-700">
+                    {label}
+                  </Label>
+                  {required ? <span className="text-red-500"> *</span> : null}
+                </div>
+              ) : null}
+              <Popover>
+                <PopoverTrigger asChild>
+                  <FormControl>
+                    <Button
+                      variant="outline"
+                      role="combobox"
+                      className={cn(
+                        'w-full justify-between',
+                        !field.value && 'text-muted-foreground',
+                      )}
+                    >
+                      {field.value
+                        ? categories.find(
+                            (category: CategoryType) =>
+                              category.id === field.value,
+                          )?.name
+                        : placeholder}
+                      <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                    </Button>
+                  </FormControl>
+                </PopoverTrigger>
+                <PopoverContent
+                  className="w-full p-0"
+                  sideOffset={18}
+                  align="end"
                 >
-                  <Check
-                    className={cn(
-                      'mr-2 h-4 w-4',
-                      value === framework.value ? 'opacity-100' : 'opacity-0',
-                    )}
-                  />
-                  {framework.label}
-                </CommandItem>
-              ))}
-            </CommandGroup>
-          </Command>
-        </PopoverContent>
-      </Popover>
+                  <Command>
+                    <CommandInput placeholder={placeholder} />
+                    <CommandEmpty>No data found.</CommandEmpty>
+                    <CommandGroup>
+                      {categories.map((category) => (
+                        <CommandItem
+                          value={category.name}
+                          key={category.id}
+                          onSelect={() => {
+                            form.setValue(id, category.id);
+                          }}
+                        >
+                          <Check
+                            className={cn(
+                              'mr-2 h-4 w-4',
+                              category.id === field.value
+                                ? 'opacity-100'
+                                : 'opacity-0',
+                            )}
+                          />
+                          {category.name}
+                        </CommandItem>
+                      ))}
+                    </CommandGroup>
+                  </Command>
+                </PopoverContent>
+              </Popover>
+            </FormItem>
+          )}
+        />
+      </div>
+      <FormErrors error={error} />
     </div>
   );
 }

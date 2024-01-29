@@ -1,34 +1,21 @@
 'use client';
 
 import { formatNumber } from '@/lib/utils';
-import { AspectRatio } from '@radix-ui/react-aspect-ratio';
+import { IEvent } from '@/types';
 import { MedalIcon, ZapIcon } from 'lucide-react';
 import Image from 'next/image';
 import React from 'react';
 
-export interface Event {
-  id: number;
-  name: string;
-  img: string;
-  category: string;
-  location: string;
-  created_at: string;
-  price: number;
-  rating: number;
-  type: string;
-  status: string;
+export interface EventItemProps {
+  event: IEvent;
 }
 
-export interface UpcomingItemProps {
-  event: Event;
-}
-
-const UpcomingItem = ({ event }: UpcomingItemProps) => {
+const EventItem = ({ event }: EventItemProps) => {
   const {
     id,
     name,
-    img,
-    category,
+    medias,
+    categoryId,
     location,
     created_at,
     price,
@@ -41,7 +28,7 @@ const UpcomingItem = ({ event }: UpcomingItemProps) => {
       {/* Image */}
       <div className="relative w-full bg-gradient-to-b h-[200px] from-neutral-500 to-neutral-300 rounded-t-lg">
         <Image
-          src={img}
+          src={`http://${medias[0].url}`}
           layout="fill"
           alt="image"
           className="image rounded-t-md"
@@ -49,7 +36,7 @@ const UpcomingItem = ({ event }: UpcomingItemProps) => {
       </div>
       {/* Free */}
       <div className="w-full h-6 bg-slate-200 opacity-70 px-4 flex items-center gap-4 p-4">
-        {type !== 'Free' ? (
+        {type !== 'FREE' ? (
           <div className="flex items-center gap-2 bg-gradient-to-r from-green-500 to-[#6e54ef] rounded-md px-1 py-[2px]">
             <MedalIcon className="w-[14px] h-[14px] text-white" />
             <span className="font-normal text-sm md:text-sm text-white sm:text-xs">
@@ -83,4 +70,4 @@ const UpcomingItem = ({ event }: UpcomingItemProps) => {
   );
 };
 
-export default UpcomingItem;
+export default EventItem;

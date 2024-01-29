@@ -3,7 +3,7 @@ import * as React from 'react';
 import { cn } from '@/lib/utils';
 import { ChevronDown, MapPin, SearchIcon } from 'lucide-react';
 import { Label } from './label';
-import { LocationSearch } from '../LocationSearch';
+import { LocationSearch } from '../../app/(costumer)/_components/LocationSearch';
 
 export interface CustomInputSearchProps
   extends React.InputHTMLAttributes<HTMLInputElement> {}

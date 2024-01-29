@@ -6,6 +6,7 @@ import { ChangeEventHandler, KeyboardEventHandler, forwardRef } from 'react';
 import { useFormStatus } from 'react-dom';
 import { Textarea } from '../ui/textarea';
 import { FormErrors } from './FormErrors';
+import { UseFormRegister } from 'react-hook-form';
 
 interface FormTextareaProps {
   id: string;
@@ -15,8 +16,8 @@ interface FormTextareaProps {
   disabled?: boolean;
   error?: string | undefined;
   className?: string;
-  onChange?: ChangeEventHandler<HTMLTextAreaElement> | undefined;
   defaultValue?: string;
+  register?: UseFormRegister<any>;
 }
 
 export const FormTextarea = forwardRef<HTMLTextAreaElement, FormTextareaProps>(
@@ -28,9 +29,9 @@ export const FormTextarea = forwardRef<HTMLTextAreaElement, FormTextareaProps>(
       required,
       disabled,
       error,
-      onChange,
       className,
       defaultValue,
+      register,
     },
     ref,
   ) => {
@@ -48,7 +49,6 @@ export const FormTextarea = forwardRef<HTMLTextAreaElement, FormTextareaProps>(
           ) : null}
           {required ? <span className="text-red-500"> *</span> : null}
           <Textarea
-            onChange={onChange}
             ref={ref}
             required={required}
             placeholder={placeholder}
@@ -56,11 +56,12 @@ export const FormTextarea = forwardRef<HTMLTextAreaElement, FormTextareaProps>(
             id={id}
             disabled={pending || disabled}
             className={cn(
-              'resize-none focus-visible:ring-0 focus-visible:ring-offset-0 ring-0 focus:ring-0 outline-none shadow-sm',
+              'resize-none focus-visible:ring-2 focus-visible:ring-offset-2 ring-0 focus:ring-2 outline-none shadow-sm',
               className,
             )}
             aria-describedby={`${id}-error`}
             defaultValue={defaultValue}
+            {...register?.(id, { required })}
           />
         </div>
         <FormErrors error={error} />

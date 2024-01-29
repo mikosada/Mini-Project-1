@@ -24,6 +24,8 @@ export default function Event() {
     setEvents(data.data);
   };
 
+  if (cardModal.isSuccess) getEvents();
+
   return (
     <div>
       <div className="flex justify-between">

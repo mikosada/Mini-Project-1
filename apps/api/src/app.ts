@@ -71,8 +71,8 @@ export default class App {
   }
 
   public start(): void {
-    this.app.listen(8000, HOSTNAME, () => {
-      console.log(`  ➜  [API] Local:   http://${HOSTNAME}:${PORT}/`);
+    this.app.listen(8000, () => {
+      console.log(`  ➜  [API] Local:   http://localhost:${PORT}/`);
     });
   }
 }

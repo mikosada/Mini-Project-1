@@ -1,16 +1,47 @@
 'use client';
 
-import Hero from '@/components/Hero';
-import { Category } from '@/components/Category';
-import Info from '@/components/Info';
-import Upcoming from '@/components/Upcoming';
-import { useState } from 'react';
+import Hero from '@/app/(costumer)/_components/Hero';
+import { Category } from '@/app/(costumer)/_components/Category';
+import Info from '@/app/(costumer)/_components/Info';
+import Upcoming from '@/app/(costumer)/_components/Upcoming';
+import { useEffect, useState } from 'react';
 import { Banknote, Calendar, SortAsc } from 'lucide-react';
-import Events from '@/components/Events';
+import Events from '@/app/(costumer)/_components/Events';
+import instance from '@/config/axios/instance';
+import { toast } from 'sonner';
+import { AxiosError } from 'axios';
 
 export default function Home() {
   const [fix, setFix] = useState(false);
   const [fixFilter, setFixFilter] = useState(false);
+  const [categories, setCategories] = useState([]);
+  const [events, setEvents] = useState([]);
+
+  useEffect(() => {
+    getCategories();
+    getEvents();
+  }, []);
+
+  const getCategories = async () => {
+    await instance
+      .get('http://localhost:8000/api/categories')
+      .then((res) => setCategories(res.data.data))
+      .catch((error: AxiosError) => {
+        toast('Error', { description: `${error.response?.data}` });
+      });
+  };
+
+  const getEvents = async () => {
+    await instance
+      .get('http://127.0.0.1:8000/api/events')
+      .then((res) => {
+        console.log(res.data.data);
+        setEvents(res.data.data);
+      })
+      .catch((error: AxiosError) => {
+        toast('Error', { description: `${error.response?.data}` });
+      });
+  };
 
   const setFixed = () => {
     if (window.scrollY > 56) {
@@ -26,7 +57,7 @@ export default function Home() {
     }
   };
 
-  window.addEventListener('scroll', setFixed);
+  if (typeof window !== undefined) window.addEventListener('scroll', setFixed);
 
   return (
     <div className="">
@@ -37,7 +68,7 @@ export default function Home() {
       >
         <div className="md:max-w-screen-2xl mx-auto w-full">
           <Hero />
-          <Category />
+          <Category data={categories} />
         </div>
       </div>
       <div className="max-w-screen-2xl mx-auto w-full px-4">
@@ -109,7 +140,7 @@ export default function Home() {
             </div>
           </div>
         </div>
-        <Upcoming />
+        <Upcoming events={events} />
         <div
           className={`md:max-w-screen-2xl mx-auto w-full h-8 mt-12 pt-8 flex items-center justify-between`}
         >
@@ -121,7 +152,7 @@ export default function Home() {
             </h3>
           </div>
         </div>
-        <Events />
+        <Events events={events} />
       </div>
     </div>
   );

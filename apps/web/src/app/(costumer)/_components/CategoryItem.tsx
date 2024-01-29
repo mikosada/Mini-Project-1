@@ -1,17 +1,13 @@
 'use client';
 
 import React, { useEffect, useRef } from 'react';
-import { Button } from './ui/button';
-import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
-
-export interface CategoryProps {
-  title: string;
-  isChecked: boolean;
-}
+import { Button } from '../../../components/ui/button';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { CategoryType } from './Category';
 
 interface CategoryItemProps {
   checkedCategoryName: string;
-  categories: CategoryProps[];
+  categories: CategoryType[];
   onCheck: (event: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
@@ -77,15 +73,15 @@ export const CategoryItem = ({
             onClick={onCheck}
             key={index}
             variant={
-              category.title === checkedCategoryName
+              category.name === checkedCategoryName
                 ? 'outlinePrimaryFull'
                 : 'outline'
             }
             size="md"
-            name={category.title}
+            name={category.name}
             className="rounded-full font-normal select-none transition ease-in-out delay-150"
           >
-            {category.title}
+            {category.name}
           </Button>
         ))}
       </div>

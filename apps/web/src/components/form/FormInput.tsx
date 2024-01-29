@@ -7,7 +7,6 @@ import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
 import { FormErrors } from './FormErrors';
-import { onChange } from 'react-toastify/dist/core/store';
 import { UseFormRegister, UseFormRegisterReturn } from 'react-hook-form';
 
 interface FormInputProps {
@@ -65,7 +64,7 @@ export const FormInput = forwardRef<HTMLInputElement, FormInputProps>(
             type={type}
             disabled={pending || disabled}
             className={cn(
-              'resize-none focus-visible:ring-0 focus-visible:ring-offset-0 ring-0 focus:ring-0 outline-none shadow-sm',
+              'resize-none focus-visible:ring-2 focus-visible:ring-offset-2 ring-0 focus:ring-2 outline-none shadow-sm',
               className,
             )}
             aria-describedby={`${id}-error`}
