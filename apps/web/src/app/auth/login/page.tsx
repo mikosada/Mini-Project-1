@@ -30,7 +30,7 @@ export default function login() {
   };
 
   return (
-    <div className="flex items-center justify-center h-1/2 my-5">
+    <div className="flex items-center justify-center my-20 ">
       <div className="bg gray-100 p-5 rounded shadow-md">
         <label
           htmlFor="email"

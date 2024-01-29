@@ -8,6 +8,7 @@ import { Popover } from '@headlessui/react';
 
 export const Header = () => {
   const [isLoggedIn, setLoggedIn] = useState(false);
+  const [isOrganizer, setIsOrganizer] = useState(false);
 
   const storagedToken =
     typeof window !== 'undefined' ? localStorage.getItem('jwtToken') : null;
@@ -24,12 +25,17 @@ export const Header = () => {
           },
         );
 
-        const res = response.status;
+        const { data, status } = response;
+        console.log(data, status);
 
-        if (res === 200) {
+        if (status === 200) {
           setLoggedIn(true);
         } else {
           console.log('Error token or expired session');
+        }
+
+        if (data.role === 'ORGANIZER') {
+          setIsOrganizer(true);
         }
       }
     } catch (error) {
@@ -48,7 +54,7 @@ export const Header = () => {
         <div className="space-x-4 md:block md:w-auto flex items-center justify-between w-full">
           {isLoggedIn ? (
             <>
-              <Link href="/customer">
+              <Link href={isOrganizer ? '/organizer/events' : '/customer'}>
                 <Button>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
