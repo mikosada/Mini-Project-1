@@ -8,11 +8,11 @@ import express, {
   Router,
 } from 'express';
 import cors from 'cors';
-import { PORT } from './config';
+import { HOSTNAME, PORT } from './config';
 import { SampleRouter } from './routers/sample.router';
-import { EventsController } from './controllers/events.controller';
 import { EventsRouter } from './routers/events.router';
 import { AuthRouter } from './routers/auth.router';
+import { CategoriesRouter } from './routers/categories.router';
 
 export default class App {
   private app: Express;
@@ -55,22 +55,24 @@ export default class App {
 
   private routes(): void {
     const sampleRouter = new SampleRouter();
-    const eventsRouter = new EventsRouter();
     const authRouter = new AuthRouter();
+    const eventsRouter = new EventsRouter();
+    const categoriesRouter = new CategoriesRouter();
 
     this.app.get('/', (req: Request, res: Response) => {
       res.send(`Hello, Purwadhika Student !`);
     });
 
     this.app.use(express.static('public'));
+    this.app.use('/api/auth', authRouter.getRouter());
     this.app.use('/api/samples', sampleRouter.getRouter());
     this.app.use('/api/events', eventsRouter.getRouter());
-    this.app.use('/api/auth', authRouter.getRouter());
+    this.app.use('/api/categories', categoriesRouter.getRouter());
   }
 
   public start(): void {
-    this.app.listen(PORT, () => {
-      console.log(`  ➜  [API] Local:   http://localhost:${PORT}/`);
+    this.app.listen(8000, HOSTNAME, () => {
+      console.log(`  ➜  [API] Local:   http://${HOSTNAME}:${PORT}/`);
     });
   }
 }

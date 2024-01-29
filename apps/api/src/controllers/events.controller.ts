@@ -16,6 +16,8 @@ export class EventsController {
         return {
           ...data,
           medias: data.medias.map((media) => {
+            console.log(req.get('host'));
+
             return { url: `${req.get('host')}/${media.url}` };
           }),
         };
@@ -59,6 +61,19 @@ export class EventsController {
 
       const slug = nameToSlug(name);
 
+      const existSlug = await prisma.event.findUnique({
+        where: {
+          slug,
+        },
+      });
+
+      if (existSlug) {
+        return res.status(401).send({
+          success: false,
+          message: 'Pastikan title tidak ada yang sama...',
+        });
+      }
+
       const event = {
         name,
         price,
@@ -98,9 +113,11 @@ export class EventsController {
         });
       });
 
-      return res.status(200).send({ success: true });
+      return res
+        .status(200)
+        .send({ success: true, message: 'Data event berhasil di buat...' });
     } catch (error) {
-      next(error);
+      next({ success: false, message: error });
     }
   }
 

@@ -83,22 +83,22 @@ export const medias = [
   {
     type: MediaType.EVENT,
     typeId: 1,
-    url: '/1.jpg',
+    url: 'assets/events/seed/1.jpg',
   },
   {
     type: MediaType.EVENT,
     typeId: 2,
-    url: '/2.webp',
+    url: 'assets/events/seed/2.webp',
   },
   {
     type: MediaType.EVENT,
     typeId: 3,
-    url: '/3.webp',
+    url: 'assets/events/seed/3.webp',
   },
   {
     type: MediaType.EVENT,
     typeId: 4,
-    url: '/4.webp',
+    url: 'assets/events/seed/4.webp',
   },
 ];
 
