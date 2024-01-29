@@ -8,47 +8,46 @@ datasource db {
 }
 
 model Category {
-  id          Int       @id @default(autoincrement())
-  name        String
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime? @updatedAt
-  events      Event[]
+  id        Int       @id @default(autoincrement())
+  name      String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
+  events    Event[]
 }
 
 model Event {
-  id            Int             @id @default(autoincrement())
-  name          String
-  slug          String          @unique
-  price         Int
-  time          DateTime        @db.Time
-  date          DateTime        @db.Date
-  description   String?         @db.Text
-  location      String          @db.Text
-  type          EventType
-  seat          Int             
-  status        EventStatus
-  categoryId    Int
-  createAt      DateTime        @default(now())
-  updatedAt     DateTime?       @updatedAt
-  category      Category        @relation(fields: [categoryId], references: [id], onDelete: Cascade)
-  transactions  Transaction[]  
-  medias        Media[]      
+  id           Int           @id @default(autoincrement())
+  name         String
+  slug         String        @unique
+  price        Int
+  time         DateTime      @db.Time
+  date         DateTime      @db.Date
+  description  String?       @db.Text
+  location     String        @db.Text
+  type         EventType
+  seat         Int
+  status       EventStatus
+  categoryId   Int
+  createAt     DateTime      @default(now())
+  updatedAt    DateTime?     @updatedAt
+  category     Category      @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  transactions Transaction[]
+  medias       Media[]
 }
 
 model Media {
-  id          Int             @id @default(autoincrement())
-  type        MediaType       
-  typeId      Int
-  event       Event           @relation(fields: [typeId], references: [id], onDelete: Cascade)
-  url         String?         @db.Text 
-  createdAt   DateTime        @default(now())
-  updatedAt   DateTime?       @updatedAt
+  id        Int       @id @default(autoincrement())
+  type      MediaType
+  typeId    Int
+  event     Event     @relation(fields: [typeId], references: [id], onDelete: Cascade)
+  url       String?   @db.Text
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
 }
 
 enum MediaType {
   EVENT
 }
-
 
 enum EventStatus {
   ACTIVE
@@ -56,16 +55,16 @@ enum EventStatus {
 }
 
 model Transaction {
-  id          Int                 @id @default(autoincrement())
-  eventId     Int
-  event       Event               @relation(fields: [eventId], references: [id], onDelete: Cascade)
-  userId      Int
-  user        User                @relation(fields: [userId], references: [id], onDelete: Cascade)    
-  rating      Float?
-  review      String?             @db.Text
-  status      TransactionStatus
-  createdAt   DateTime            @default(now())
-  updatedAt   DateTime?           @updatedAt
+  id        Int               @id @default(autoincrement())
+  eventId   Int
+  event     Event             @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  userId    Int
+  user      User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  rating    Float?
+  review    String?           @db.Text
+  status    TransactionStatus
+  createdAt DateTime          @default(now())
+  updatedAt DateTime?         @updatedAt
 }
 
 enum TransactionStatus {
@@ -76,11 +75,11 @@ enum TransactionStatus {
 }
 
 model Sample {
-  id          Int           @id @default(autoincrement())
-  name        String
-  code        String        @unique
-  createdAt   DateTime      @default(now())
-  updatedAt   DateTime?     @updatedAt
+  id        Int       @id @default(autoincrement())
+  name      String
+  code      String    @unique
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
 }
 
 enum EventType {
@@ -88,16 +87,47 @@ enum EventType {
   PAID
 }
 
-
 model User {
-  id              Int          @id @default(autoincrement())
-  username        String 
-  email           String       @unique
-  password        String
-  role            Role         @default(CUSTOMER)
-  referral        String
-  transactions    Transaction[]
-  wallet     UserWallet?
+  id            Int              @id @default(autoincrement())
+  username      String
+  email         String           @unique
+  password      String
+  role          Role             @default(CUSTOMER)
+  referralCode  String           @unique
+  transactions  Transaction[]
+  points        Point[]          
+  createdAt     DateTime         @default(now())
+  coupons       DiscountCoupon[]
+  referredBy    Referral[]       @relation("Referee")
+  referredUsers Referral[]       @relation("Referrer")
+}
+
+model Referral {
+  id           Int      @id @default(autoincrement())
+  referrerId   Int
+  refereeId    Int
+  referralCode String?  @unique
+  createdAt    DateTime @default(now())
+  referrer     User     @relation("Referrer", fields: [referrerId], references: [id])
+  referee      User     @relation("Referee", fields: [refereeId], references: [id])
+}
+
+model Point {
+  id        Int       @id @default(autoincrement())
+  userId    Int
+  points    Int       
+  createdAt DateTime  @default(now())
+  expiresAt DateTime? // Optional expiration date for points
+  user      User      @relation(fields: [userId], references: [id])
+}
+
+model DiscountCoupon {
+  id                 Int      @id @default(autoincrement())
+  userId             Int
+  couponCode         String   @unique
+  expirationDate     DateTime
+  discountPercentage Int
+  user               User     @relation(fields: [userId], references: [id])
 }
 
 enum Role {
@@ -105,14 +135,6 @@ enum Role {
   ORGANIZER
 }
 
-model UserWallet {
-  id      Int @id @default(autoincrement())
-  userId  Int @unique
-  user    User @relation(fields: [userId], references: [id])
-  point   Int @default(0)
-}
-
 model VoucherDiscount {
   id Int @id @default(autoincrement())
-  
 }

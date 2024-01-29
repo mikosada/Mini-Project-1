@@ -20,6 +20,12 @@ export function Sidebar() {
     },
   ];
 
+  const logout = () => {
+    localStorage.removeItem('jwtToken');
+    router.push('/');
+    return alert('Logout success');
+  };
+
   const router = useRouter();
 
   const onClick = (href: string) => {
@@ -37,8 +43,16 @@ export function Sidebar() {
         </h2>
         <NavItem items={items} />
       </div>
+
       <div className="">
-        <Button variant="link" className="w-full text-white">
+        <Button
+          variant="link"
+          className="w-full text-white"
+          onClick={() => onClick('/')}
+        >
+          Back to Home
+        </Button>
+        <Button variant="link" className="w-full text-white" onClick={logout}>
           Logout
         </Button>
       </div>
