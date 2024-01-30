@@ -11,6 +11,7 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip';
 import { useCardModal } from '@/hooks/use-card-modal';
+import { IEvent } from '@/types';
 
 export default function Event() {
   const cardModal = useCardModal();
@@ -21,7 +22,8 @@ export default function Event() {
 
   const getEvents = async () => {
     const { data } = await instance.get('http://localhost:8000/api/events');
-    setEvents(data.data);
+    setEvents(data.data.data);
+    console.log(data.data.data);
   };
 
   if (cardModal.isSuccess) getEvents();
@@ -53,14 +55,14 @@ export default function Event() {
           </tr>
         </thead>
         <tbody>
-          {events.map((event: any, index: number) => (
+          {events.map((event: IEvent, index: number) => (
             <tr key={index} className="text-left px-4 even:bg-[#f2f2f2]">
               <td>{index + 1}</td>
               <td>{event.name}</td>
               <td>{event.seat}</td>
               <td>{event.price}</td>
               <td>{event.type}</td>
-              <td>{event.category}</td>
+              <td>{event.category.name}</td>
               <td>{event.date}</td>
               <td className="flex gap-2">
                 <TooltipProvider>
