@@ -8,8 +8,16 @@ import fs from 'fs';
 export class EventsController {
   async getEvents(req: Request, res: Response, next: NextFunction) {
     try {
+      const take = 8;
+      const $queryRaw = req.query.page;
+      const page = $queryRaw ? Number($queryRaw) - 1 : 0;
+      const skip = page * take;
+
+      const totalEvents = await prisma.event.count({});
       const events = await prisma.event.findMany({
-        include: { medias: { select: { url: true } } },
+        take,
+        skip,
+        include: { category: true, medias: { select: { url: true } } },
       });
 
       const data = events.map((data) => {
@@ -22,7 +30,13 @@ export class EventsController {
           }),
         };
       });
-      return res.status(200).send({ data });
+      return res.status(200).send({
+        success: true,
+        data: {
+          total: totalEvents,
+          data,
+        },
+      });
     } catch (error) {
       next(error);
     }
@@ -33,15 +47,24 @@ export class EventsController {
 
     const event = await prisma.event.findUnique({
       where: { slug: slug },
+      include: {
+        category: { select: { name: true } },
+        medias: { select: { url: true } },
+      },
     });
-
+    const data = {
+      ...event,
+      medias: event?.medias.map((media) => {
+        return { url: `${req.get('host')}/${media.url}` };
+      }),
+    };
     if (!event) {
       return res
         .status(404)
         .json({ success: true, message: 'Event not found' });
     }
 
-    return res.status(200).json({ success: true, data: event });
+    return res.status(200).json({ success: true, data });
   }
 
   async createEvent(req: Request, res: Response, next: NextFunction) {

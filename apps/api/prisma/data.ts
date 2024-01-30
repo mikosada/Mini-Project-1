@@ -77,6 +77,99 @@ export const events = [
     type: EventType.PAID,
     categoryId: 1,
   },
+  {
+    name: 'SAM KIM 2024 LIVE IN JAKARTA',
+    slug: 'sam-kim-2024-live-in-jakarta',
+    price: 1200000,
+    time: new Date(),
+    date: new Date(),
+    description:
+      'KONSER SOLO DEBUT SAM KIM DI JAKARTA!Sam Kim, bintang musik Korea yang berbakat, penyanyi dan penulis lagu fenomenal “Love Me Like That, “ telah mencuri hati penggemar di seluruh dunia akan menggelar konser solonya yang perdana di Jakarta. konser ini menandai langkah berani Sam Kim dalam mengeksplorasi panggung solo dan berbagi keintiman serta pengalaman musik yang tak terlupakan bagi penggemar di Indonesia. Beli tiketnya di tiket.com sekarang!',
+    location:
+      'Balai Sarbini, Jalan Jendral Sudirman, Rt.1/Rw.4, Karet Semanggi, South Jakarta City, Jakarta, Indonesia, Setiabudi, Jakarta Selatan, Jakarta, Indonesia',
+    status: EventStatus.ACTIVE,
+    seat: 100,
+    type: EventType.PAID,
+    categoryId: 3,
+  },
+  {
+    name: 'ASEAN - India Spring Bazaar',
+    slug: 'asean-india-spring-bazaar',
+    price: 50000,
+    time: new Date(),
+    date: new Date(),
+    description:
+      'ASEAN-India Spring Bazaar hadir! Temukan lebih dari 100 tenant makanan, seni dan kerajinan tangan, dekorasi rumah, aksesoris, perhiasan, dan lebih banyak lagi dari negara-negara ASEAN dan India. Bazaar akan berlangsung pada hari Minggu, 18 Februari di Java Ballroom, Westin Hotel, Jakarta Beli tiket masuknya di tiket.com sekarang!',
+    location:
+      'Java Ballroom, The Westin Hotel, Jl. H. R. Rasuna Said No.Kav.C-22a, Rt.2/Rw.5, Karet Kuningan, Kecamatan Setiabudi, Kota Jakarta Selatan, Daerah Khusus Ibukota Jakarta 12940, Setiabudi, Jakarta Selatan, Jakarta, Indonesia',
+    status: EventStatus.ACTIVE,
+    seat: 100,
+    type: EventType.PAID,
+    categoryId: 3,
+  },
+  {
+    name: 'LIVE PERFORMANCE BY WUKONG AT ATLAS SUPER CLUB',
+    slug: 'live-performance-by-wukong-at-atlas-super-club',
+    price: 250000,
+    time: new Date(),
+    date: new Date(),
+    description:
+      'Segera siapkan diri untuk terpesona oleh penampilan WUKONG! Tandai tanggal 9 Februari 2024 di kalender Anda untuk menyaksikan pertunjukan live yang memukau di Atlas Super Club, Bali. Nikmati malam hiburan tak tertandingi, di mana kehadiran memikat WUKONG berjanji menciptakan kenangan yang akan dikenang sepanjang masa. Jangan lewatkan kesempatan untuk menyaksikan acara luar biasa ini—amankan tiket Anda sekarang dan bersiaplah untuk malam penuh pesona, musik, dan momen tak terlupakan!',
+    location:
+      'Java Ballroom, The Westin Hotel, Jl. H. R. Rasuna Said No.Kav.C-22a, Rt.2/Rw.5, Karet Kuningan, Kecamatan Setiabudi, Kota Jakarta Selatan, Daerah Khusus Ibukota Jakarta 12940, Setiabudi, Jakarta Selatan, Jakarta, Indonesia',
+    status: EventStatus.ACTIVE,
+    seat: 100,
+    type: EventType.PAID,
+    categoryId: 4,
+  },
+  {
+    name: 'LIVE PERFORMANCE BY AGENTS OF TIME AT ATLAS SUPER CLUB',
+    slug: 'live-performance-by-agents-of-time-at-atlas-super-club',
+    price: 200000,
+    time: new Date(),
+    date: new Date(),
+    description:
+      'Pesta terbaik di Bali hanya ada di Atlas Super Club! Tonton langsung penampilan memukau dari AGENTS OF TIME pada 7 Maret 2024! Beli tiketnya di tiket.com sekarang!',
+    location:
+      'Jalan Pantai Berawa, Canggu, Badung Regency, Bali, Indonesia, Kuta Utara, Badung, Bali, Indonesia',
+    status: EventStatus.ACTIVE,
+    seat: 100,
+    type: EventType.PAID,
+    categoryId: 4,
+  },
+  {
+    // 9
+    name: '165 Wedding Exhibition',
+    slug: '165-wedding-exhibition',
+    price: 150000,
+    time: new Date(),
+    date: new Date(),
+    description:
+      'Acara tahunan dari PT Grha 165 Tbk yang menghadirkan vendor-vendor pernikahan terbaik, mulai dari layanan katering, dekorasi, dokumentasi, wedding planner, wedding organizer dan masih banyak lainnya. Mengusung tema pernikahan “Tradisional & Nasional” 165 Wedding Exhibition menyadari akan keragaman budaya Indonesia yang sangat kaya, termasuk dalam hal pernikahan. Setiap daerah memiliki adat dan tradisi pernikahan yang berbeda-beda, yang menjadikan pernikahan sebagai salah satu momen penting untuk merayakan budaya dan identitas daerah. 165 Wedding Exhibition yang ke-4 ini diharapkan bisa menjadi wadah untuk memperkuat identitas dan warisan budaya, merayakan nilai-nilai keluarga serta tradisi leluhur. Dikelola secara profesional oleh PT Grha 165 Tbk, pameran pernikahan 165 Wedding Exhibition akan menghadirkan berbagai macam vendor pernikahan yang berkualitas, baik dari segi produk maupun layanan.',
+    location:
+      'Menara 165, Jalan Tahi Bonar Simatupang, Rt.3/Rw.3, East Cilandak, South Jakarta City, Jakarta, Indonesia, Pasar Minggu, Jakarta Selatan, Jakarta, Indonesia',
+    status: EventStatus.ACTIVE,
+    seat: 100,
+    type: EventType.PAID,
+    categoryId: 5,
+  },
+
+  {
+    // 10
+    name: 'TAU TAU FESTIVAL VOL.3',
+    slug: 'tau-tau-festival-vol3',
+    price: 120000,
+    time: new Date(),
+    date: new Date(),
+    description:
+      'Tau Tau Festival kembali hadir ke-3 kalinya untuk memberikan pengalaman yang luar biasa dengan sajian di panggung maupun luar panggung. Keunikan acara ini terletak pada penghapusan batasan, baik dari sisi penonton, penampil, maupun kru yang bertugas. Hal ini menciptakan suasana yang inklusif, dinamis, dan penuh kebebasan, memberikan pengalaman tak terlupakan bagi semua yang terlibat! Beli tiketnya di tiket.com sekarang!',
+    location:
+      'Jl. Raya Cipadung, Cipadung Wetan, Kec. Panyileukan, Kota Bandung, Jawa Barat 40614, Panyileukan, Bandung, Jawa Barat, Indonesia',
+    status: EventStatus.ACTIVE,
+    seat: 100,
+    type: EventType.PAID,
+    categoryId: 5,
+  },
 ];
 
 export const medias = [
@@ -99,6 +192,36 @@ export const medias = [
     type: MediaType.EVENT,
     typeId: 4,
     url: 'assets/events/seed/4.webp',
+  },
+  {
+    type: MediaType.EVENT,
+    typeId: 5,
+    url: 'assets/events/seed/5.webp',
+  },
+  {
+    type: MediaType.EVENT,
+    typeId: 6,
+    url: 'assets/events/seed/6.webp',
+  },
+  {
+    type: MediaType.EVENT,
+    typeId: 7,
+    url: 'assets/events/seed/7.webp',
+  },
+  {
+    type: MediaType.EVENT,
+    typeId: 8,
+    url: 'assets/events/seed/8.webp',
+  },
+  {
+    type: MediaType.EVENT,
+    typeId: 9,
+    url: 'assets/events/seed/9.webp',
+  },
+  {
+    type: MediaType.EVENT,
+    typeId: 10,
+    url: 'assets/events/seed/10.webp',
   },
 ];
 
