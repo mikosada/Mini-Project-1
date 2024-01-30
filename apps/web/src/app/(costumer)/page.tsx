@@ -12,6 +12,8 @@ import { toast } from 'sonner';
 import { AxiosError } from 'axios';
 import { IEvent } from '@/types';
 import { useCardModal } from '@/hooks/use-card-modal';
+import CommonPagination from '@/components/CommonPagination';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 export default function Home() {
   const [fix, setFix] = useState(false);
@@ -21,9 +23,12 @@ export default function Home() {
   const [filteredEvents, setFilteredEvents] = useState([]);
   const filterModal = useCardModal();
 
+  const [activePage, setActivePage] = useState(1);
+  const [totalPage, setTotalPage] = useState(0);
+
   useEffect(() => {
     getCategories();
-    getEvents();
+    //getEvents();
   }, []);
 
   useEffect(() => {
@@ -49,12 +54,36 @@ export default function Home() {
       });
   };
 
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
+  const handleChangeFilter = (key: string, value: string) => {
+    const newQuery: Record<string, string> = {};
+    searchParams.forEach((param, key) => {
+      newQuery[key] = param;
+    });
+    newQuery[key] = value;
+    const urlParams = new URLSearchParams(newQuery).toString();
+    router.replace(`?${urlParams}`);
+  };
+
+  useEffect(() => {
+    handleChangeFilter('page', `${activePage}`);
+    getEvents();
+  }, [activePage]);
+
+  console.log('event data', events);
+
   const getEvents = async () => {
+    const page = searchParams?.get('page') || undefined;
     await instance
-      .get('http://127.0.0.1:8000/api/events')
+      .get(`http://127.0.0.1:8000/api/events?page=${activePage}`)
       .then((res) => {
-        setEvents(res.data.data);
-        setFilteredEvents(res.data.data);
+        setEvents(res.data?.data?.data);
+        setFilteredEvents(res.data?.data?.data);
+        setTotalPage(
+          res.data?.data?.total ? Math.ceil(res.data?.data?.total / 9) : 1,
+        );
       })
       .catch((error: AxiosError) => {
         toast('Error', { description: `${error.response?.data}` });
@@ -63,7 +92,7 @@ export default function Home() {
 
   const onFilter = async (id: number) => {
     const filteredEvents = events.filter(
-      (event: IEvent) => event.categoryId === id,
+      (event: IEvent) => event.category.id === id,
     );
     setFilteredEvents(filteredEvents);
   };
@@ -187,7 +216,16 @@ export default function Home() {
             <h2>No data found</h2>
           </div>
         ) : (
-          <Events events={filteredEvents} />
+          <>
+            <Events events={filteredEvents} />
+            <div className="py-12">
+              <CommonPagination
+                page={activePage}
+                total={totalPage}
+                onChange={(activePage) => setActivePage(activePage)}
+              />
+            </div>
+          </>
         )}
 
         <div

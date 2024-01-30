@@ -4,7 +4,6 @@ import '../globals.css';
 import { Footer } from '@/app/(costumer)/_components/Footer';
 import { FilterModalProvider } from '@/components/providers/filter-modal-provider';
 import { Header } from './_components/Header';
-import { useState } from 'react';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -20,10 +19,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`h-full bg-slate-100 ${inter.className}`}>
+      <body className={`h-full bg-slate-50 ${inter.className}`}>
         <FilterModalProvider />
         <Header />
-        <main className="pb-20 bg-slate-100">{children}</main>
+        <main className="pb-20 bg-slate-50">{children}</main>
 
         <Footer />
       </body>
