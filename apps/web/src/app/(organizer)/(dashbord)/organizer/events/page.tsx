@@ -63,7 +63,14 @@ export default function Event() {
               <td>{event.price}</td>
               <td>{event.type}</td>
               <td>{event.category.name}</td>
-              <td>{event.date}</td>
+              <td>
+                {event?.date
+                  ? new Date(event?.date).toLocaleDateString('ID')
+                  : '-'}{' '}
+                {event?.time
+                  ? new Date(event?.time).toLocaleTimeString('ID')
+                  : '-'}
+              </td>
               <td className="flex gap-2">
                 <TooltipProvider>
                   <Tooltip>
