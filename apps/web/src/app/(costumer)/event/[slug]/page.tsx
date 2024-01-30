@@ -48,12 +48,14 @@ export default function EventDetail() {
         </div>
       </div>
       <div className="relative w-full bg-gradient-to-b h-[500px] from-neutral-500 to-neutral-300">
-        <Image
-          src={`http://${event?.medias[0].url}`}
-          layout="fill"
-          alt="image"
-          className="image-cover rounded-t-md"
-        />
+        {event?.medias[0].url && (
+          <Image
+            src={`http://${event?.medias[0].url}`}
+            layout="fill"
+            alt="image"
+            className="image-cover rounded-t-md"
+          />
+        )}
       </div>
       {/* DETAIL */}
       <div className="md:max-w-screen-2xl mx-auto flex w-full mt-6">
