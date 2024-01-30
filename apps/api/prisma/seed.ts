@@ -1,10 +1,20 @@
 import { PrismaClient, Role } from '@prisma/client';
-import { categories, events, medias, transactions, users } from './data';
+import {
+  categories,
+  events,
+  medias,
+  referral,
+  transactions,
+  users,
+} from './data';
 import { genSalt, hash } from 'bcrypt';
 
 const prisma = new PrismaClient();
 
 const main = async () => {
+  await prisma.referral.deleteMany();
+  console.log('Deleted records in referral table');
+
   await prisma.user.deleteMany();
   console.log('Deleted records in user table');
 
@@ -22,6 +32,9 @@ const main = async () => {
 
   await prisma.$queryRaw`ALTER TABLE user AUTO_INCREMENT = 1`;
   console.log('reset user auto increment to 1');
+
+  await prisma.$queryRaw`ALTER TABLE referral AUTO_INCREMENT = 1`;
+  console.log('reset referral auto increment to 1');
 
   await prisma.$queryRaw`ALTER TABLE transaction AUTO_INCREMENT = 1`;
   console.log('reset transaction auto increment to 1');
@@ -42,7 +55,7 @@ const main = async () => {
       username: 'user1',
       password: await hash('123user1', salt),
       email: 'user1@gmail.com',
-      referral: '',
+      referralCode: 'abc123',
       role: Role.CUSTOMER,
     },
   });
@@ -52,7 +65,7 @@ const main = async () => {
       username: 'user2',
       password: await hash('123user2', salt),
       email: 'user2@gmail.com',
-      referral: '',
+      referralCode: 'abc456',
       role: Role.ORGANIZER,
     },
   });
@@ -71,6 +84,10 @@ const main = async () => {
 
   await prisma.transaction.createMany({
     data: transactions,
+  });
+
+  await prisma.referral.createMany({
+    data: referral,
   });
 };
 

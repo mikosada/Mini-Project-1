@@ -1,5 +1,6 @@
 'use client';
 
+import { Button } from '@/components/ui/button';
 import { formatNumber } from '@/lib/utils';
 import { IEvent } from '@/types';
 import { MedalIcon, ZapIcon } from 'lucide-react';
@@ -15,6 +16,7 @@ const UpcomingItem = ({ event }: UpcomingItemProps) => {
     id,
     name,
     medias,
+    description,
     categoryId,
     location,
     created_at,
@@ -26,49 +28,27 @@ const UpcomingItem = ({ event }: UpcomingItemProps) => {
   return (
     <div className="rounded-lg mt-4 shadow-md">
       {/* Image */}
-      <div className="relative w-full h-[230px] rounded-t-lg">
+      <div className="relative w-full h-[300px] rounded-t-lg">
         <Image
           src={`http://${medias[0].url}`}
           layout="fill"
           alt="image"
           className="image-upcoming rounded-md"
         />
-        <div className="absolute inset-0 z-5 bg-gradient-to-l opacity-100 h-[230px] from-blue-950 to-transparent rounded-md" />
 
-        <div className="absolute my-1/2 right-0 top-0 bottom-0 z-10">
-          {/* Free */}
-          <div className="w-full h-6 bg-slate-200 opacity-70 px-4 flex items-center gap-4 p-4">
-            {type !== 'FREE' ? (
-              <div className="flex items-center gap-2 bg-gradient-to-r from-green-500 to-[#6e54ef] rounded-md px-1 py-[2px]">
-                <MedalIcon className="w-[14px] h-[14px] text-white" />
-                <span className="font-normal text-sm md:text-sm text-white sm:text-xs">
-                  Jaminan Harga Termurah
-                </span>
-              </div>
-            ) : null}
-            <div className="flex items-center gap-2">
-              <ZapIcon className="w-[16px] h-[16px] text-green-700" />
-              <span className="font-bold text-sm">{type}</span>
-            </div>
+        <div className="absolute inset-0 z-5 bg-gradient-to-r h-[300px] from-blue-950 to-white opacity-70 rounded-md" />
+
+        <div className="absolute right-0 top-[20px] z-10 w-full px-6">
+          <h2 className="font-semibold text-white pr-2 text-2xl">{name}</h2>
+          <div className="h-[70px] w-[300px]">
+            <h2 className="font-normal text-white text-sm mt-2 overflow-hidden text-clip">
+              {description.slice(0, 100)}
+            </h2>
           </div>
-          {/*Text */}
-          {/* <div className="p-4">
-            <h2 className="font-semibold truncate">{name}</h2>
-            <h3 className="flex items-center justify-start gap-x-2 font-medium py-2 text-black/50 text-sm">
-              {location}
-              <div className="w-[4px] h-[4px] rounded-full bg-black/50" />
-              {created_at}
-            </h3>
-            <div className="max-lg:flex max-lg:flex-row-reverse lg:block items-center justify-between">
-              <h2 className="font-semibold text-lg text-red-500">
-                IDR {formatNumber(price)}
-              </h2>
-              <h3 className="font-semibold text-sm text-green-600 pt-2">
-                {status}
-              </h3>
-            </div>
-          </div> */}
         </div>
+        <Button variant="outline" className="absolute bottom-0 left-0 m-6">
+          Lihat Sekarang
+        </Button>
       </div>
     </div>
   );

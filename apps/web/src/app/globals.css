@@ -76,6 +76,52 @@
 }
 
 @layer components {
+  .horizontal-slider {
+    width: 100%;
+    max-width: 500px;
+    height: 50px;
+    transition: all 0.3s ease;
+  }
+
+  .horizontal-slider .example-track {
+    top: 20px;
+    height: 6px;
+  }
+
+  .example-track.example-track-0 {
+    background: grey;
+  }
+
+  .example-track.example-track-1 {
+    background: #007bff;
+  }
+
+  .example-track.example-track-2 {
+    background: grey;
+  }
+
+  .horizontal-slider .example-thumb {
+    transition: all 0.3s ease;
+    top: 8px;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: white;
+    cursor: pointer;
+    box-sizing: border-box;
+    filter: drop-shadow(0 4px 3px rgb(0 0 0 / 0.07))
+      drop-shadow(0 2px 2px rgb(0 0 0 / 0.06));
+  }
+
+  .horizontal-slider .example-thumb:hover {
+    transition: all 0.3s ease;
+    top: 4px;
+    width: 40px;
+    height: 40px;
+    filter: drop-shadow(0 10px 8px rgb(0 0 0 / 0.04))
+      drop-shadow(0 4px 3px rgb(0 0 0 / 0.1));
+  }
+
   .table {
     width: 100% !important;
     border-spacing: 0 !important;
@@ -101,7 +147,7 @@
     object-fit: cover !important;
     width: 100% !important;
     position: relative !important;
-    height: 230px !important;
+    height: 300px !important;
     background-position: center !important;
   }
 

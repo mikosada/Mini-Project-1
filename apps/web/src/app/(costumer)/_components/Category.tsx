@@ -1,25 +1,27 @@
 'use client';
 
 import React, { useState } from 'react';
-import { CATEGORIES } from '@/constants';
 import CategoryItem from './CategoryItem';
-
-export interface CategoryType {
-  id: number;
-  name: string;
-}
+import { ICategory } from '@/types';
 
 interface CategoryProps {
-  data: CategoryType[];
+  onFilter(id: number): void;
+  data: ICategory[];
 }
 
-export const Category = ({ data }: CategoryProps) => {
+export const Category = ({ data, onFilter }: CategoryProps) => {
   const [currentCategory, setCurrentCategory] = useState('');
 
   const onCheck = (event: React.MouseEvent<HTMLButtonElement>): void => {
     event.preventDefault();
     const buttonName: HTMLButtonElement = event.currentTarget;
     setCurrentCategory(buttonName.name);
+    const filteredCategory = data.find(
+      (category: ICategory) =>
+        category.name.toLowerCase() === buttonName.name.toLowerCase(),
+    );
+
+    onFilter(filteredCategory?.id as number);
   };
 
   return (

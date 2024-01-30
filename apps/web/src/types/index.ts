@@ -10,7 +10,7 @@ export interface IEvent {
   type: string;
   seat: number;
   status: string;
-  categoryId: string;
+  categoryId: number;
   created_at: string;
   rating: number;
   medias: IMedia[];
@@ -22,4 +22,9 @@ export interface IMedia {
 
 export interface EventsProps {
   events: IEvent[];
+}
+
+export interface ICategory {
+  id: number;
+  name: string;
 }

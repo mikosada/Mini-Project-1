@@ -8,11 +8,11 @@ import express, {
   Router,
 } from 'express';
 import cors from 'cors';
-import { HOSTNAME, PORT } from './config';
 import { SampleRouter } from './routers/sample.router';
 import { EventsRouter } from './routers/events.router';
 import { AuthRouter } from './routers/auth.router';
 import { CategoriesRouter } from './routers/categories.router';
+import { PORT } from './config';
 
 export default class App {
   private app: Express;
@@ -71,7 +71,7 @@ export default class App {
   }
 
   public start(): void {
-    this.app.listen(8000, () => {
+    this.app.listen(PORT, () => {
       console.log(`  ➜  [API] Local:   http://localhost:${PORT}/`);
     });
   }

@@ -107,16 +107,28 @@ export const users = [
     username: 'user1',
     password: '123user1',
     email: 'user1@gmail.com',
-    refferal: '',
+    referralCode: 'abc123',
     role: Role.CUSTOMER,
   },
   {
     username: 'user2',
     password: '123user2',
     email: 'user2@gmail.com',
-    referral: '',
-    refferal: '',
+    referralCode: 'abc456',
     role: Role.ORGANIZER,
+  },
+];
+
+export const referral = [
+  {
+    referralCode: 'abc123',
+    referrerId: 1,
+    refereeId: 2,
+  },
+  {
+    referralCode: 'abc456',
+    referrerId: 2,
+    refereeId: 1,
   },
 ];
 

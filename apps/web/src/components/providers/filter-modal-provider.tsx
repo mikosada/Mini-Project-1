@@ -1,9 +1,9 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { FormCombobox } from '../form/FormCombobox';
+import { FilterModal } from '@/app/(costumer)/_components/FilterModal';
 
-export const ComboboxProvider = () => {
+export const FilterModalProvider = () => {
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
@@ -16,7 +16,7 @@ export const ComboboxProvider = () => {
 
   return (
     <>
-      <FormCombobox />
+      <FilterModal />
     </>
   );
 };

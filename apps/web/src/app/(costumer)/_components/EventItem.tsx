@@ -24,7 +24,7 @@ const EventItem = ({ event }: EventItemProps) => {
     type,
   } = event;
   return (
-    <div className="rounded-lg mt-4 shadow">
+    <div className="rounded-lg mt-4 shadow bg-slate-50">
       {/* Image */}
       <div className="relative w-full bg-gradient-to-b h-[200px] from-neutral-500 to-neutral-300 rounded-t-lg">
         <Image
