@@ -10,8 +10,6 @@ import { verify, sign } from 'jsonwebtoken';
 export class AuthController {
   async registerUser(req: Request, res: Response, next: NextFunction) {
     try {
-      console.log(req.body);
-
       const { username, email, role, parentReferral } = req.body;
       const checkUser = await prisma.user.findUnique({
         where: { email },
@@ -73,7 +71,11 @@ export class AuthController {
           : null;
 
         if (referringUser) {
-          const awardPoints = async (userId: number, pointsToAdd: number) => {
+          const awardPoints = async (
+            userId: number,
+            pointsToAdd: number,
+            expiresAt: Date,
+          ) => {
             try {
               const currentUser = await prisma.user.findUnique({
                 where: { id: userId },
@@ -97,7 +99,7 @@ export class AuthController {
                         where: {
                           id: currentUser.points[0].id,
                         },
-                        data: { points: newTotalPoints },
+                        data: { points: newTotalPoints, expiresAt },
                       },
                     },
                   },
@@ -105,7 +107,9 @@ export class AuthController {
               } else {
                 await prisma.user.update({
                   where: { id: userId },
-                  data: { points: { create: { points: newTotalPoints } } },
+                  data: {
+                    points: { create: { points: newTotalPoints, expiresAt } },
+                  },
                 });
               }
 
@@ -138,7 +142,11 @@ export class AuthController {
           };
 
           const pointsToAdd = 10000;
-          await awardPoints(referringUser.id, pointsToAdd);
+          await awardPoints(
+            referringUser.id,
+            pointsToAdd,
+            calculateExpiryDate(),
+          );
           const discountPercentage = 10;
           await generateDiscountCoupon(
             newUser.id,

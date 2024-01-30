@@ -13,6 +13,7 @@ import { EventsRouter } from './routers/events.router';
 import { AuthRouter } from './routers/auth.router';
 import { CategoriesRouter } from './routers/categories.router';
 import { PORT } from './config';
+import { DashboardRouter } from './routers/dashboard.router';
 
 export default class App {
   private app: Express;
@@ -58,6 +59,7 @@ export default class App {
     const authRouter = new AuthRouter();
     const eventsRouter = new EventsRouter();
     const categoriesRouter = new CategoriesRouter();
+    const dashboardRouter = new DashboardRouter();
 
     this.app.get('/', (req: Request, res: Response) => {
       res.send(`Hello, Purwadhika Student !`);
@@ -68,6 +70,7 @@ export default class App {
     this.app.use('/api/samples', sampleRouter.getRouter());
     this.app.use('/api/events', eventsRouter.getRouter());
     this.app.use('/api/categories', categoriesRouter.getRouter());
+    this.app.use('/api/dashboard', dashboardRouter.getRouter());
   }
 
   public start(): void {
